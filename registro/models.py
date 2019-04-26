@@ -36,8 +36,8 @@ class Owner(models.Model):
     firstName   = models.CharField(max_length=50, help_text="Nombre del dueño del vehiculo")
     phone       = models.CharField(max_length=50, null=True, blank=True, help_text="Telefono del dueño del vehiculo")
     email       = models.EmailField(null=True, blank=True, help_text="email del dueño del vehiculo")
-    created_at  = models.DateTimeField(auto_now_add=True, null=True, blank=True, editable=False)
-    updated_at  = models.DateTimeField(auto_now=True, null=True, blank=True, editable=False)
+    created_at  = models.DateTimeField(auto_now_add=True, null=True, blank=True, editable=False, help_text="Fecha de creacion")
+    updated_at  = models.DateTimeField(auto_now=True, null=True, blank=True, editable=False, help_text="Fecha de actualizacion")
     created_by  = models.ForeignKey(User, null=True, editable=False, related_name='%(class)s_created', on_delete=models.PROTECT)
     modified_by = models.ForeignKey(User, null=True, editable=False, related_name='%(class)s_modified', on_delete=models.PROTECT)
 
@@ -59,8 +59,8 @@ class BrandCar(models.Model):
     Clase para la marca de los vehiculos
     """
     brandName = models.CharField(max_length=50, help_text="Nombre de Marca de vehiculos")
-    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True, editable=False)
-    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True, editable=False)
+    created_at  = models.DateTimeField(auto_now_add=True, null=True, blank=True, editable=False, help_text="Fecha de creacion")
+    updated_at  = models.DateTimeField(auto_now=True, null=True, blank=True, editable=False, help_text="Fecha de actualizacion")
 
     def get_absolute_url(self):
         """
@@ -87,8 +87,8 @@ class Car(models.Model):
     carPlate       = models.CharField(max_length=10, null=True, blank=True, default=None, help_text="Placa del vehiculo")
     kmDailyAverage = models.PositiveIntegerField(null=True, blank=True, default=None, help_text="Promedio Diario en Kilometros")
     kmActual       = models.PositiveIntegerField(null=True, blank=True, default=None, help_text="Kilometraje actual")
-    created_at     = models.DateTimeField(auto_now_add=True, null=True, blank=True, editable=False)
-    updated_at     = models.DateTimeField(auto_now=True, null=True, blank=True, editable=False)
+    created_at  = models.DateTimeField(auto_now_add=True, null=True, blank=True, editable=False, help_text="Fecha de creacion")
+    updated_at  = models.DateTimeField(auto_now=True, null=True, blank=True, editable=False, help_text="Fecha de actualizacion")
 
     def get_absolute_url(self):
         """
@@ -130,8 +130,8 @@ class ServiceCatalog(models.Model):
     """
     serviceName = models.CharField(max_length=150)
     toRevision  = models.ManyToManyField('ToRevision', null=False, blank=False, help_text="Revisiones programadas")
-    created_at  = models.DateTimeField(auto_now_add=True, null=True, blank=True, editable=False)
-    updated_at  = models.DateTimeField(auto_now=True, null=True, blank=True, editable=False)
+    created_at  = models.DateTimeField(auto_now_add=True, null=True, blank=True, editable=False, help_text="Fecha de creacion")
+    updated_at  = models.DateTimeField(auto_now=True, null=True, blank=True, editable=False, help_text="Fecha de actualizacion")
 
     def get_absolute_url(self):
         """
@@ -150,19 +150,17 @@ class RegisterService(models.Model):
     """
     Clase para Registro de Servicios
     """
-    dateOfRegister  = models.DateField(editable=False, null=False, blank=False, help_text="Fecha de Registro")
-    dateOfUpdated   = models.DateField(editable=False, null=True, blank=True, help_text="Fecha de Actualizacion")
-    created_at      = models.DateTimeField(auto_now_add=True, null=True, blank=True, editable=False)
-    updated_at      = models.DateTimeField(auto_now=True, null=True, blank=True, editable=False)
     carRegister     = models.ForeignKey('Car', on_delete=models.PROTECT, null=True, blank=True, default=None, help_text="Vehiculo Registrado")
     serviceRegister = models.ForeignKey('ServiceCatalog', on_delete=models.PROTECT, null=True, blank=True, default=None, help_text="Servicio Registrado")
     statusRegister  = models.CharField(max_length=50, choices=STATUS_SERVICE, help_text="Estatus del Servicio")
+    created_at  = models.DateTimeField(auto_now_add=True, null=True, blank=True, editable=False, help_text="Fecha de registro")
+    updated_at  = models.DateTimeField(auto_now=True, null=True, blank=True, editable=False, help_text="Fecha de actualizacion")
 
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''
         if not self.id:
-            self.dateOfRegister = now()
-        self.dateOfUpdated = now()
+            self.created_at = now()
+        self.updated_at = now()
         return super().save(*args, **kwargs)
         #return super(RegisterService, self).save(*args, **kwargs)
 
