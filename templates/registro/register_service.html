@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Registro de Servicios</title>
+</head>
+<body>
+    <h1>Registro de Servicios</h1>
+    {% for servicio in object_list % }
+        <h2> {{ servicio.car_register }} </h2>
+        <p> {{ servicio.service_register }} </p>
+    {% endfor % }
+</body>
+</html>

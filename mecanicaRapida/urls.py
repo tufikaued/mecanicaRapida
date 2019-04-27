@@ -16,15 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, re_path, path
 from registro import views
+from registro.views import HomeIndex
 
 #'C:\\Users\\6005220\\source\\mecanicaRapida\\registro\\urls.py'>, 'registro', 'registro'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('registro.urls'),name="registro"),
+    path('', HomeIndex.as_view()),
 ]
-print("(****{")
+#print("(****{")
 #print(include('registro.urls'))
-print(urlpatterns)
-print("(****}")
+#print(urlpatterns)
+#print("(****}")
    #path(r'^',include('registro.urls')),
 #    path('registro/',views.IndexView.as_view(),name="index"),
